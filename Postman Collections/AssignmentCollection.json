@@ -639,6 +639,261 @@
 							"body": "{\n    \"message\": \"OK\"\n}"
 						}
 					]
+				},
+				{
+					"name": "books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9f12a97a-9cdc-466e-8fdd-3e295c5f8fc3",
+								"exec": [
+									"pm.test(\"Response status code is 300\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"  pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									"",
+									"pm.test(\"Response has an array of books\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Each book has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('array');",
+									"    responseData.forEach(function(book) {",
+									"        pm.expect(book).to.have.property('title');",
+									"        pm.expect(book).to.have.property('author');",
+									"        pm.expect(book).to.have.property('id');",
+									"        pm.expect(book).to.have.property('genre');",
+									"        pm.expect(book).to.have.property('yearPublished');",
+									"        pm.expect(book).to.have.property('checkedOut');",
+									"        pm.expect(book).to.have.property('createdAt');",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate book properties\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('array').that.is.not.empty;",
+									"    ",
+									"    responseData.forEach(function(book) {",
+									"        pm.expect(book.id).to.be.a('string').and.to.have.lengthOf.at.least(1, \"ID should be a non-empty string\");",
+									"        pm.expect(book.yearPublished).to.be.a('number').and.to.be.at.least(0, \"Year published should be a positive integer\");",
+									"        pm.expect(book.checkedOut).to.be.a('boolean', \"Checked out should be a boolean value\");",
+									"    });",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "eafd99ea-4015-487e-843b-5d7c3b22a85e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "5f3d5a91-6ebf-48b0-a10b-ea4b49ed53cd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "borges",
+									"description": "a search string to be matched against author/title (example: borges). Case insensitive, partial match OK.",
+									"disabled": true
+								},
+								{
+									"key": "checkedOut",
+									"value": "false",
+									"description": "true/false",
+									"disabled": true
+								},
+								{
+									"key": "genre",
+									"value": "fiction",
+									"description": "filter by genre (case-insensitive, exact match)",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "b67563a2-8eec-4cdb-9a52-c86dc9f3f3bc",
+							"name": "books",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://postman-library-api.glitch.me/books",
+									"protocol": "https",
+									"host": [
+										"postman-library-api",
+										"glitch",
+										"me"
+									],
+									"path": [
+										"books"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "borges",
+											"description": "a search string to be matched against author/title (example: borges). Case insensitive, partial match OK.",
+											"disabled": true
+										},
+										{
+											"key": "checkedOut",
+											"value": "false",
+											"description": "true/false",
+											"disabled": true
+										},
+										{
+											"key": "genre",
+											"value": "fiction",
+											"description": "filter by genre (case-insensitive, exact match)",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 12 Jun 2021 00:41:42 GMT",
+									"uuid": "5e4bc5cd-f94d-49b6-8ed7-74560f6be44c"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"uuid": "35aa202e-3d6d-40e1-8dbf-7d9972f989b2"
+								},
+								{
+									"key": "Content-Length",
+									"value": "4503",
+									"uuid": "3c774e7e-7c10-4cd2-977f-55fb969f7337"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"uuid": "b7cc5610-32b1-444a-9d88-89f9ff73981c"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express",
+									"uuid": "7ceeecfb-269b-45b7-a534-94940c2e2b34"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"1197-eLah3rmGpEn/V/gcfnJ7iyv+Foo\"",
+									"uuid": "99e527aa-f7f5-4ad0-a4db-edf6673a22b1"
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "[\n    {\n        \"title\": \"Ficciones\",\n        \"author\": \"Jorge Luis Borges\",\n        \"id\": \"ZUST9JFx-Sd9X0k\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1944,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Dust Tracks on a Road\",\n        \"author\": \"Zora Neale Hurston\",\n        \"id\": \"bJmPVX5oFzAQJwI\",\n        \"genre\": \"biography\",\n        \"yearPublished\": 1942,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Crime and Punishment\",\n        \"author\": \"Fyodor Dostoyevsky\",\n        \"id\": \"T1NwXSmVxnlxoeG\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1866,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Domain-Driven Design: Tackling Complexity in the Heart of Software\",\n        \"author\": \"Eric Evans\",\n        \"id\": \"hHNwXjmjxnlxooP\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2003,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"The Tale of Genji\",\n        \"author\": \"Murasaki Shikibu\",\n        \"id\": \"rclHV3DLWbJmquK\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1021,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Patterns of Enterprise Application Architecture\",\n        \"author\": \"Martin Fowler\",\n        \"id\": \"uTYYlzvCQsaaSwj\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2002,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Competing Against Luck: The Story of Innovation and Customer Choice\",\n        \"author\": \"Clayton Christensen, Taddy Hall, Karen Dillon, David Duncan\",\n        \"id\": \"rebHV3JhWbJmcca\",\n        \"genre\": \"business\",\n        \"yearPublished\": 2016,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Beyond Violence\",\n        \"author\": \"Jiddu Krishnamurti\",\n        \"id\": \"pclHVVVqLWbJmqur\",\n        \"genre\": \"philosophy\",\n        \"yearPublished\": 1973,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems\",\n        \"author\": \"Martin Kleppmann\",\n        \"id\": \"HbQrRkNjJkalsS\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2017,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Colorless Tsukuru Tazaki and His Years of Pilgrimage\",\n        \"author\": \"Haruki Murakami\",\n        \"id\": \"eclHBBrLWbJmque\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2013,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"A Practical Approach to API Design\",\n        \"author\": \"D. Keith Casey Jr, James Higginbotham\",\n        \"id\": \"jclqjdUdBrLWDDmqp\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2013,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Go Design Patterns\",\n        \"author\": \"Mario Castro Contreras\",\n        \"id\": \"eeRplqnKkshdmqeeE\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2017,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"The Joy Luck Club\",\n        \"author\": \"Amy Tan\",\n        \"id\": \"qqlHBBrLWbJmq_a\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1989,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Anxious People\",\n        \"author\": \"Fredrik Backman\",\n        \"id\": \"MpNoarLWbJTwe\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2019,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Continuous API Management: Making the Right Decisions in an Evolving Landscape\",\n        \"author\": \"Mehdi Medjaoui, Erik Wilde, Ronnie Mitra, Mike Amundsen\",\n        \"id\": \"ZxJksSDasdaO\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2018,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Learning GraphQL\",\n        \"author\": \"Eve Porcello, Alex Banks\",\n        \"id\": \"gqlHBBrLWbJmqgql\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2018,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Masala Lab: The Science of Indian Cooking\",\n        \"author\": \"Krish Ashok\",\n        \"id\": \"shrHcTrLWlJmquti\",\n        \"genre\": \"cooking\",\n        \"yearPublished\": 2020,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Refactoring\",\n        \"author\": \"Kent Beck, Martin Fowler\",\n        \"id\": \"aeSdkfhUSkdhHfo\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 1999,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Consolation of Philosophy\",\n        \"author\": \"Boethius\",\n        \"id\": \"cpopeLmqgixdD\",\n        \"genre\": \"philosophy\",\n        \"yearPublished\": 524,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"A Thousand Splendid Suns\",\n        \"author\": \"Khaled Hosseini\",\n        \"id\": \"qpBhlLWbJmqgg\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2007,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"The Wright Brothers\",\n        \"author\": \"David McCullough \",\n        \"id\": \"HjKaEeYYuiapA\",\n        \"genre\": \"history\",\n        \"yearPublished\": 2007,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"RESTful Web APIs: Services for a Changing World\",\n        \"author\": \"Leonard Richardson, Mike Amundsen, Sam Ruby\",\n        \"id\": \"apilLWbJmqgop\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2013,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Creativity, Inc.\",\n        \"author\": \"Ed Catmull\",\n        \"id\": \"plRHqwwEJmqgoT\",\n        \"genre\": \"business\",\n        \"yearPublished\": 2014,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    }\n]"
+						},
+						{
+							"id": "c369b26b-c1db-4458-879d-e033bd9ba17f",
+							"name": "books",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/books",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"books"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "borges",
+											"description": "a search string to be matched against author/title (example: borges). Case insensitive, partial match OK.",
+											"disabled": true
+										},
+										{
+											"key": "checkedOut",
+											"value": "false",
+											"description": "true/false",
+											"disabled": true
+										},
+										{
+											"key": "genre",
+											"value": "fiction",
+											"description": "filter by genre (case-insensitive, exact match)",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 17 Jun 2024 15:42:49 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "13996"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"36ac-N7RlJVlpPkBavUZ3qq7YBBACRBw\""
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "[\n    {\n        \"title\": \"Dune\",\n        \"author\": \"Roger Zelazny\",\n        \"id\": \"7bSxHiNGHziSHLn\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1965,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:25:30\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"lz1_njGmrhj9zlT\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:06:56\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"r0B-29IQMWrwHk_\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:06:45\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"ndtxpyZr61Uwr_5\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:06:11\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"2IX8byZQ29JR6Fj\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:06:06\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"H-2e6J06IPKW394\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:06:04\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"RdOBGdIa70VWmUB\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:06:02\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"NcDQQaOGfKPEYYP\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:06:00\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"ka63LmB4g26Hpnk\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:05:49\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"pbwHfWV-5b2Dvgz\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:05:20\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"xGXyf-t_exlovCn\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:04:38\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"JhRke37wmdouZyn\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:04:30\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"RL-4Y43xhFsddlV\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:04:01\"\n    },\n    {\n        \"title\": \"Specialist executive\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"ubrn8Ib2gt-uBhv\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 15:02:00\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"oid9tYLyNdqv_0F\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 14:58:00\"\n    },\n    {\n        \"title\": \"76\",\n        \"author\": \"Mukhtar Auezov\",\n        \"id\": \"g_2BuHoIKacuZgA\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2023,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 14:49:50\"\n    },\n    {\n        \"title\": \"Abay joly\",\n        \"author\": \"Mukhtar Auezov\",\n        \"id\": \"lQfEWblBa7LwBTF\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2023,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 14:45:34\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"XBNr9NrxoUcmfnO\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": true,\n        \"createdAt\": \"2024-06-17 14:08:31\"\n    },\n    {\n        \"title\": \"open-source navigating projection Rubber\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"-K26MJ4BgTl6THI\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 14:00:30\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"-VqXGwjCWEFFkDj\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 13:38:02\"\n    },\n    {\n        \"title\": \"Random Book\",\n        \"author\": \"Random Author\",\n        \"id\": \"UOyYa7bGH8x2pic\",\n        \"genre\": \"random\",\n        \"yearPublished\": 2010,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 13:30:16\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"1Hb9vYiK9i_ZsnR\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 13:26:56\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"rYpk__WQaYKYycC\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 13:25:46\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"MkERT0aRTa1GCGM\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 13:23:02\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"RRaGUtfFfHNHONI\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": true,\n        \"createdAt\": \"2024-06-17 13:00:42\"\n    },\n    {\n        \"title\": \"Cia2\",\n        \"author\": \"Roger Zelazny\",\n        \"id\": \"vz38mUDCF7fVvdx\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1965,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 13:00:42\"\n    },\n    {\n        \"title\": \"digital Ville\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"V_5m1h-H3qSY0i9\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 13:00:28\"\n    },\n    {\n        \"title\": \"Dune\",\n        \"author\": \"Roger Zelazny\",\n        \"id\": \"tU5KhfVHB4CwVvk\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1965,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 12:10:29\"\n    },\n    {\n        \"title\": \"One Hundred Years of Solitude\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"D8FbjhZeDkgkmw1\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 12:00:46\"\n    },\n    {\n        \"title\": \"Tuna Forward\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"sO4a906aRzWJ4Bl\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 12:00:46\"\n    },\n    {\n        \"title\": \"1080p Chilean strategize 24/7\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"H03ltPkmh9KPrCZ\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 11:01:13\"\n    },\n    {\n        \"title\": \"Automotive Progressive\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"wUq3Th8Q3SKG7ow\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 10:00:23\"\n    },\n    {\n        \"title\": \"Adventures in Wonderland\",\n        \"author\": \"Carroll\",\n        \"id\": \"ZjDCMQ4UrUDLdXP\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2014,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 09:41:37\"\n    },\n    {\n        \"title\": \"Adventures in Wonderland\",\n        \"author\": \"Carroll\",\n        \"id\": \"8J4hpWoUyUSQSmH\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2014,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 09:31:38\"\n    },\n    {\n        \"title\": \"context-sensitive Island\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"6feYa6tcjmF6LGq\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 09:00:14\"\n    },\n    {\n        \"title\": \"deposit Automotive\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"WwlkiCBYdjQTN1_\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 08:00:35\"\n    },\n    {\n        \"title\": \"My Creativity\",\n        \"author\": \"Arthor canoe\",\n        \"id\": \"Skvz9blduy7wji7\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2023,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 07:39:18\"\n    },\n    {\n        \"title\": \"My Creativity\",\n        \"author\": \"Arthor canoe\",\n        \"id\": \"cuVvwtZS_b1d_49\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2023,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 07:36:30\"\n    },\n    {\n        \"title\": \"4J7NLI\",\n        \"author\": \"IKOMAT\",\n        \"id\": \"AMZrBF2910lUAt9\",\n        \"genre\": \"drama\",\n        \"yearPublished\": 2016,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 07:30:14\"\n    },\n    {\n        \"title\": \"PX6I6O\",\n        \"author\": \"CBGB9H\",\n        \"id\": \"yT59p-ktMPFphtI\",\n        \"genre\": \"non-fiction\",\n        \"yearPublished\": 1916,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 07:29:54\"\n    },\n    {\n        \"title\": \"WMVONV\",\n        \"author\": \"ES8A0U\",\n        \"id\": \"9HL2sg7S-Clubxt\",\n        \"genre\": \"drama\",\n        \"yearPublished\": 1977,\n        \"checkedOut\": true,\n        \"createdAt\": \"2024-06-17 07:23:24\"\n    },\n    {\n        \"title\": \"Updated Title\",\n        \"author\": \"XQ3C94\",\n        \"id\": \"p80G_6NHaXUIi14\",\n        \"genre\": \"drama\",\n        \"yearPublished\": 1941,\n        \"checkedOut\": true,\n        \"createdAt\": \"2024-06-17 07:13:59\"\n    },\n    {\n        \"title\": \"Updated Title\",\n        \"author\": \"XA37JH\",\n        \"id\": \"0IO2Lvg_wKj20d2\",\n        \"genre\": \"non-fiction\",\n        \"yearPublished\": 1934,\n        \"checkedOut\": true,\n        \"createdAt\": \"2024-06-17 07:10:49\"\n    },\n    {\n        \"title\": \"exploit feed Dynamic Iowa process\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"0ovLvp1uMXlUbZu\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 07:00:44\"\n    },\n    {\n        \"title\": \"ATHF8Q\",\n        \"author\": \"XEV4YI\",\n        \"id\": \"04OSbPw8WfqDcca\",\n        \"genre\": \"mystery\",\n        \"yearPublished\": 1952,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 06:34:58\"\n    },\n    {\n        \"title\": \"R0QAXA\",\n        \"author\": \"DR5NMV\",\n        \"id\": \"oVi0cvVmmJTwlwe\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1977,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 06:27:03\"\n    },\n    {\n        \"title\": \"Patched Title\",\n        \"author\": \"Carroll\",\n        \"id\": \"z__zWO4uYG46i6W\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2014,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 06:23:06\"\n    },\n    {\n        \"title\": \"Adventures in Wonderland\",\n        \"author\": \"Carroll\",\n        \"id\": \"EyutS0TrWVuV6Gc\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2014,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 06:20:58\"\n    },\n    {\n        \"title\": \"generate Rupee one-to-one\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"EzCRgsQ61Tz9U8j\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 06:01:16\"\n    },\n    {\n        \"title\": \"Distributed vortals\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"-7H0LwUvpeH-zzn\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 06:00:26\"\n    },\n    {\n        \"title\": \"EL LLANTO DE LOS MARES\",\n        \"author\": \"Marixa Andino\",\n        \"id\": \"YQbwibf_D-NL6oO\",\n        \"genre\": \"Drama\",\n        \"yearPublished\": 1985,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 05:21:34\"\n    },\n    {\n        \"title\": \"Sleek yellow Egypt EXE\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"f3kFnUC0E3vsBDs\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 05:02:10\"\n    },\n    {\n        \"title\": \"matrix Shirt Virginia olive Principal\",\n        \"author\": \"Gabriel García Márquez\",\n        \"id\": \"GmIZjSwkRyNrB4t\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1967,\n        \"checkedOut\": false,\n        \"createdAt\": \"2024-06-17 04:00:29\"\n    },\n    {\n        \"title\": \"Ficciones\",\n        \"author\": \"Jorge Luis Borges\",\n        \"id\": \"ZUST9JFx-Sd9X0k\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1944,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Dust Tracks on a Road\",\n        \"author\": \"Zora Neale Hurston\",\n        \"id\": \"bJmPVX5oFzAQJwI\",\n        \"genre\": \"biography\",\n        \"yearPublished\": 1942,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Crime and Punishment\",\n        \"author\": \"Fyodor Dostoyevsky\",\n        \"id\": \"T1NwXSmVxnlxoeG\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1866,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Domain-Driven Design: Tackling Complexity in the Heart of Software\",\n        \"author\": \"Eric Evans\",\n        \"id\": \"hHNwXjmjxnlxooP\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2003,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"The Tale of Genji\",\n        \"author\": \"Murasaki Shikibu\",\n        \"id\": \"rclHV3DLWbJmquK\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1021,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Patterns of Enterprise Application Architecture\",\n        \"author\": \"Martin Fowler\",\n        \"id\": \"uTYYlzvCQsaaSwj\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2002,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Competing Against Luck: The Story of Innovation and Customer Choice\",\n        \"author\": \"Clayton Christensen, Taddy Hall, Karen Dillon, David Duncan\",\n        \"id\": \"rebHV3JhWbJmcca\",\n        \"genre\": \"business\",\n        \"yearPublished\": 2016,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Beyond Violence\",\n        \"author\": \"Jiddu Krishnamurti\",\n        \"id\": \"pclHVVVqLWbJmqur\",\n        \"genre\": \"philosophy\",\n        \"yearPublished\": 1973,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems\",\n        \"author\": \"Martin Kleppmann\",\n        \"id\": \"HbQrRkNjJkalsS\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2017,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Colorless Tsukuru Tazaki and His Years of Pilgrimage\",\n        \"author\": \"Haruki Murakami\",\n        \"id\": \"eclHBBrLWbJmque\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2013,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"A Practical Approach to API Design\",\n        \"author\": \"D. Keith Casey Jr, James Higginbotham\",\n        \"id\": \"jclqjdUdBrLWDDmqp\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2013,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Go Design Patterns\",\n        \"author\": \"Mario Castro Contreras\",\n        \"id\": \"eeRplqnKkshdmqeeE\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2017,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"The Joy Luck Club\",\n        \"author\": \"Amy Tan\",\n        \"id\": \"qqlHBBrLWbJmq_a\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 1989,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Anxious People\",\n        \"author\": \"Fredrik Backman\",\n        \"id\": \"MpNoarLWbJTwe\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2019,\n        \"checkedOut\": false,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Continuous API Management: Making the Right Decisions in an Evolving Landscape\",\n        \"author\": \"Mehdi Medjaoui, Erik Wilde, Ronnie Mitra, Mike Amundsen\",\n        \"id\": \"ZxJksSDasdaO\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2018,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Learning GraphQL\",\n        \"author\": \"Eve Porcello, Alex Banks\",\n        \"id\": \"gqlHBBrLWbJmqgql\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2018,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Masala Lab: The Science of Indian Cooking\",\n        \"author\": \"Krish Ashok\",\n        \"id\": \"shrHcTrLWlJmquti\",\n        \"genre\": \"cooking\",\n        \"yearPublished\": 2020,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Refactoring\",\n        \"author\": \"Kent Beck, Martin Fowler\",\n        \"id\": \"aeSdkfhUSkdhHfo\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 1999,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Consolation of Philosophy\",\n        \"author\": \"Boethius\",\n        \"id\": \"cpopeLmqgixdD\",\n        \"genre\": \"philosophy\",\n        \"yearPublished\": 524,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"A Thousand Splendid Suns\",\n        \"author\": \"Khaled Hosseini\",\n        \"id\": \"qpBhlLWbJmqgg\",\n        \"genre\": \"fiction\",\n        \"yearPublished\": 2007,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"The Wright Brothers\",\n        \"author\": \"David McCullough \",\n        \"id\": \"HjKaEeYYuiapA\",\n        \"genre\": \"history\",\n        \"yearPublished\": 2007,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"RESTful Web APIs: Services for a Changing World\",\n        \"author\": \"Leonard Richardson, Mike Amundsen, Sam Ruby\",\n        \"id\": \"apilLWbJmqgop\",\n        \"genre\": \"computers\",\n        \"yearPublished\": 2013,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    },\n    {\n        \"title\": \"Creativity, Inc.\",\n        \"author\": \"Ed Catmull\",\n        \"id\": \"plRHqwwEJmqgoT\",\n        \"genre\": \"business\",\n        \"yearPublished\": 2014,\n        \"checkedOut\": true,\n        \"createdAt\": \"2021-06-02 17:37:38\"\n    }\n]"
+						}
+					]
 				}
 			],
 			"id": "ff65ee67-9b30-4226-9b00-88b545b74d70",
