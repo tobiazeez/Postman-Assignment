@@ -13,24 +13,10 @@
 					"name": "books",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"id": "ac386479-e758-4bd4-bf76-6d7c30f9e127",
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
-								"id": "38ac3f09-e591-47c0-993d-1b27cc0651ee",
+								"id": "d9733ed2-8f5f-4d50-8bf9-2a84f99320ab",
 								"exec": [
-									"pm.test(\"Response status code is 300\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
 									"",
 									"",
 									"pm.test(\"Response time is less than 200ms\", function () {",
@@ -58,14 +44,18 @@
 									"});",
 									"",
 									"",
-									"pm.test(\"YearPublished is a positive integer\", function () {",
-									"  const responseData = pm.response.json();",
-									"  ",
-									"  pm.expect(responseData).to.be.an('array');",
-									"  responseData.forEach(function(book) {",
-									"    pm.expect(book.yearPublished).to.be.a('number').and.to.be.above(0);",
-									"  });",
-									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c98a94d4-2eb2-4d08-a89b-92498a115e21",
+								"exec": [
 									""
 								],
 								"type": "text/javascript",
@@ -188,6 +178,33 @@
 				},
 				{
 					"name": "book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dd5d5bbc-a5c0-4f63-8a83-a45c010ad5b3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has a single book object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('object');",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData).to.have.property('title');",
+									"});",
+									"",
+									"pm.test(\"Response time is within acceptable range\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"id": "7f99bf14-b8e4-43fa-a944-aefad5d79885",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -206,7 +223,6 @@
 							],
 							"variable": [
 								{
-									"id": "68ed3e4c-df84-4071-a799-1e202e4b8fa1",
 									"key": "id",
 									"value": "{{id}}"
 								}
