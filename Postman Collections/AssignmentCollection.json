@@ -361,6 +361,51 @@
 				},
 				{
 					"name": "update book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a1a8f504-6019-479c-b8e9-7d2eb889d7f6",
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required field - message\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.message).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is within an acceptable range\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify the response schema for updating a book\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.message).to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Ensure that the response includes a message indicating that only user-added books can be edited\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.message).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.message).to.include(\"only user-added books can be edited\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"id": "b9d5a8f5-7cb0-4896-bc0d-5620083af26f",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -388,7 +433,6 @@
 							],
 							"variable": [
 								{
-									"id": "16689b0e-06b6-42df-9195-3787bcbef458",
 									"key": "id",
 									"value": "cwSjBa_thjnW3cr"
 								}
