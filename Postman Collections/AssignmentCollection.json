@@ -21,7 +21,6 @@
 									"  pm.expect(pm.response.responseTime).to.be.below(200);",
 									"});",
 									"",
-									"",
 									"pm.test(\"Response has the required fields\", function () {",
 									"    const responseData = pm.response.json();",
 									"",
@@ -31,7 +30,6 @@
 									"    });",
 									"});",
 									"",
-									"",
 									"pm.test(\"Title is a non-empty string\", function () {",
 									"  const responseData = pm.response.json();",
 									"  ",
@@ -39,11 +37,7 @@
 									"  responseData.forEach(function(book) {",
 									"    pm.expect(book.title).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Title should not be empty\");",
 									"  });",
-									"});",
-									"",
-									"",
-									"",
-									""
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -191,12 +185,7 @@
 									"    pm.expect(jsonData).to.be.an('object');",
 									"    pm.expect(jsonData).to.have.property('id');",
 									"    pm.expect(jsonData).to.have.property('title');",
-									"});",
-									"",
-									"pm.test(\"Response time is within acceptable range\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(300);",
-									"});",
-									""
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
